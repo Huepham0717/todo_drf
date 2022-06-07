@@ -9,6 +9,13 @@ python manage.py migrate
 python manage.py runserver
 
 ```
+## Testing functions
+
+```
+pytest tests.py
+
+```
+
 ## The answer of the task 1
 
 ```
