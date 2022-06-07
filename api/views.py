@@ -5,14 +5,13 @@ import requests
 import json
 import random
 import numpy as np
-import statistics
 
+# Create your views here.
 pokemon_list = []
 
-"""
+"""The function to get response data from RestAPI"""
 
-"""
-# Create your views here.
+
 def getResponseData(url):
     response = requests.get(url)
     response_data = {}
@@ -23,6 +22,9 @@ def getResponseData(url):
         s = json.dumps(data)
         response_data = json.loads(s)
     return response_data
+
+
+"""The function to get information of the pokemon (name, height, weight, moves)"""
 
 
 def info_pokemon(pokemon_name):
@@ -36,6 +38,9 @@ def info_pokemon(pokemon_name):
     return detail_pokemon
 
 
+"""The function to get information of the pokemon (base happiness, color)"""
+
+
 def info_pokemon1(name):
     url = "https://pokeapi.co/api/v2/pokemon-species"
     json_load = getResponseData(url)
@@ -46,7 +51,11 @@ def info_pokemon1(name):
     response_data = getResponseData(url)
     base_happiness = response_data["base_happiness"]
     color = response_data["color"]["name"]
-    return {'base_happiness': base_happiness, 'color': color}
+    detail_pokemon1 = {'base_happiness': base_happiness, 'color': color}
+    return detail_pokemon1
+
+
+"""The function to fetch data from RestAPI"""
 
 
 @api_view(['GET'])
@@ -66,6 +75,23 @@ def pokemonList(request):
     return Response(pokemon_list)
 
 
+"""The function to get median of the array"""
+
+
+def getMedian(arr):
+    arr.sort()
+    if len(arr) % 2 != 0:
+        m = int((len(arr) + 1) / 2 - 1)
+        return m
+    else:
+        m = int(len(arr) / 2 - 1)
+        m1 = int(len(arr) / 2)
+        return (arr[m] + arr[m1]) / 2
+
+
+"""The function to get median, mean, average of the "base_happiness" array"""
+
+
 @api_view(['GET'])
 def baseHappiness(request):
     bh_list = []
@@ -74,9 +100,9 @@ def baseHappiness(request):
     length = len(bh_list)
     # calculate the average of base_happiness of 5 pokemons
     avg = sum(bh_list) / length
+    # calculate the mean of base_happiness of 5 pokemons
     mean = np.mean(bh_list)
     # calculate the median of base_happiness of 5 pokemons
-    bh_list.sort()
-    median = statistics.median(bh_list)
+    median = getMedian(bh_list)
     return_value = {'avg': avg, 'mean': mean, 'median': median}
     return Response(return_value)
