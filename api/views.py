@@ -9,7 +9,9 @@ import statistics
 
 pokemon_list = []
 
+"""
 
+"""
 # Create your views here.
 def getResponseData(url):
     response = requests.get(url)
@@ -69,8 +71,12 @@ def baseHappiness(request):
     bh_list = []
     for pokemon in pokemon_list:
         bh_list.append(pokemon["base_happiness"])
-    avg = sum(bh_list) / len(bh_list)
+    length = len(bh_list)
+    # calculate the average of base_happiness of 5 pokemons
+    avg = sum(bh_list) / length
     mean = np.mean(bh_list)
+    # calculate the median of base_happiness of 5 pokemons
+    bh_list.sort()
     median = statistics.median(bh_list)
     return_value = {'avg': avg, 'mean': mean, 'median': median}
     return Response(return_value)
