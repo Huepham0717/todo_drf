@@ -79,18 +79,19 @@ def pokemonList(request):
 
 
 def getMedian(arr):
+    n = len(arr)
     arr.sort()
-    if len(arr) % 2 != 0:
-        m = int((len(arr) + 1) / 2 - 1)
-        return m
+    if n % 2 == 0:
+        median1 = arr[n // 2]
+        median2 = arr[n // 2 - 1]
+        median = (median1 + median2) / 2
     else:
-        m = int(len(arr) / 2 - 1)
-        m1 = int(len(arr) / 2)
-        return (arr[m] + arr[m1]) / 2
+        median = arr[n // 2]
+    return median
 
 
 """The function to get median, mean, average of the "base_happiness" array"""
-
+"""Run the pokemonList function before running the baseHappiness function to get the average, median, and mean of base happiness' 5 favorite pokemons"""
 
 @api_view(['GET'])
 def baseHappiness(request):
